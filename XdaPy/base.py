@@ -15,8 +15,22 @@
 # You should have received a copy of the GNU General Public License
 # along with XdaPy.  If not, see <http://www.gnu.org/licenses/>.
 
-from .base import XdaBase
+from .requests import build_cookie_string
 
 
-class Pms(XdaBase):
-    pass
+class XdaBase(object):
+    def __init__(self, session):
+        self.session = session
+
+
+class Session(object):
+    def __init__(self):
+        self.username = ""
+        self.cookies = {}
+
+    @property
+    def cookie_str(self):
+        return build_cookie_string(self.cookies)
+
+    def __str__(self):
+        return self.username

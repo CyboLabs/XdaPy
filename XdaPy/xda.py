@@ -15,8 +15,14 @@
 # You should have received a copy of the GNU General Public License
 # along with XdaPy.  If not, see <http://www.gnu.org/licenses/>.
 
-from .base import XdaBase
+from . import apps, forums, pms, posts, user, base
 
 
-class Pms(XdaBase):
-    pass
+class Xda(object):
+    def __init__(self):
+        self.session = base.Session()
+        self.apps = apps.Apps(self.session)
+        self.forums = forums.Forums(self.session)
+        self.pms = pms.Pms(self.session)
+        self.posts = posts.Posts(self.session)
+        self.user = user.User(self.session)
