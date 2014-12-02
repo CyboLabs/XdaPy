@@ -19,8 +19,9 @@ from .requests import build_cookie_string
 
 
 class XdaBase(object):
-    def __init__(self, session):
-        self.session = session
+    def __init__(self, xda):
+        self.xda = xda
+        self.session = self.xda.session
 
 
 class Session(object):

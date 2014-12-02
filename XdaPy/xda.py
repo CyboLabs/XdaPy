@@ -21,8 +21,8 @@ from . import apps, forums, pms, posts, user, base
 class Xda(object):
     def __init__(self):
         self.session = base.Session()
-        self.apps = apps.Apps(self.session)
-        self.forums = forums.Forums(self.session)
-        self.pms = pms.Pms(self.session)
-        self.posts = posts.Posts(self.session)
-        self.user = user.User(self.session)
+        self.apps = apps.Apps(self)
+        self.forums = forums.Forums(self)
+        self.pms = pms.Pms(self)
+        self.posts = posts.Posts(self)
+        self.user = user.User(self)
