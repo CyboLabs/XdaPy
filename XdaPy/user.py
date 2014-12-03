@@ -59,6 +59,4 @@ class User(XdaBase):
         sys.stdout.write("What is your username?\n")
         u = sys.stdin.readline().strip()
         p = getpass("What is your password: ")
-        print(u)
-        print(p)
         self.login(u, p)
