@@ -23,3 +23,9 @@ import json
 
 def dict_to_str(obj):
     return json.dumps(obj)
+
+
+def str_to_dict(body):
+    if type(body) == bytes:
+        body = body.decode()
+    return json.loads(body)

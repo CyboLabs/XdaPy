@@ -17,12 +17,21 @@
 
 from .base import XdaBase
 from .decorators import requires_login
+from . import serialize
 
 from getpass import getpass
 import sys
 
 
 class User(XdaBase):
+
+    @requires_login
+    def user(self):
+        method = "GET"
+        url = "/v1/user"
+        r = self.xda.requests.make_request(method, url)
+        return serialize.str_to_dict(r.read())
+
 
     def login(self, username, password):
         method = "POST"
