@@ -15,16 +15,19 @@
 # You should have received a copy of the GNU General Public License
 # along with XdaPy.  If not, see <http://www.gnu.org/licenses/>.
 
-from . import apps, forums, pms, posts, user, base
+from . import apps, forums, pms, posts, user, requests, session
 
 
 class Xda(object):
     def __init__(self):
-        self.session = base.Session()
+        self.session = session.Session(self)
         self.apps = apps.Apps(self)
         self.forums = forums.Forums(self)
         self.pms = pms.Pms(self)
         self.posts = posts.Posts(self)
         self.user = user.User(self)
+        self.requests = requests.Requests(self)
 
         self.host = "api.xda-developers.com"
+
+

@@ -16,23 +16,23 @@
 # along with XdaPy.  If not, see <http://www.gnu.org/licenses/>.
 
 from .base import XdaBase
-from .requests import get, post
-
-import json
 
 
 class User(XdaBase):
 
     def login(self, username, password):
+        method = "POST"
         url = "/v1/user/login"
         d = {"username": username,
              "password": password}
-        r = post(self.xda.host, url, body=json.dumps(d))
+        r = self.xda.requests.make_request(method, url, body=d)
         assert r.status == 200
-        self.session.set_session(username, r.getheader("Set-Cookie"))
+        cookies = self.xda.requests.get_cookies(r)
+        self.xda.session.set_session(username, cookies)
 
     def logout(self):
+        method = "GET"
         url = "/v1/user/logout"
-        r = get(self.xda.host, url)
+        r = self.xda.requests.make_request(method, url)
         assert r.status == 200
-        self.session.remove_session()
+        self.xda.session.remove_session()

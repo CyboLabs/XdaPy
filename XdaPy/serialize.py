@@ -15,9 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with XdaPy.  If not, see <http://www.gnu.org/licenses/>.
 
+# Thin wrapper around the urllib classes, so nowhere else has to
+# worry about Python compatibility or even touching httplib
 
-class XdaBase(object):
-    def __init__(self, xda):
-        self.xda = xda
+import json
 
 
+def dict_to_str(obj):
+    return json.dumps(obj)
