@@ -26,3 +26,5 @@ class Xda(object):
         self.pms = pms.Pms(self)
         self.posts = posts.Posts(self)
         self.user = user.User(self)
+
+        self.host = "api.xda-developers.com"
