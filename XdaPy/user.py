@@ -74,7 +74,7 @@ class User(XdaBase):
         d = {"page": page}
         return self.xda.requests.basic_request(method, url, body=d)
 
-    def userinfo(self, user_id=None):
+    def user_info(self, user_id=None):
         """Return a dict containing public info for a user.
 
         Args:
@@ -92,7 +92,7 @@ class User(XdaBase):
         return self.xda.requests.basic_request(method, url, body=d)
 
     @login_required
-    def addmydevice(self, device_id):
+    def add_my_device(self, device_id):
         """Add a device to "My Devices" for the logged in user.
 
         Args:
@@ -139,7 +139,6 @@ class User(XdaBase):
             https://api.xda-developers.com/explorer/#!/user/createRegister_post
         """
         method = "POST"
-        method = "POST"
         url = "/v1/user/register"
         d = {"username": username,
              "password": password,
@@ -149,7 +148,7 @@ class User(XdaBase):
         return self.xda.requests.basic_request(method, url, body=d)
 
     @login_required
-    def updateemail(self, email):
+    def update_email(self, email):
         """Update the user's email address.
 
         Args:
@@ -164,7 +163,7 @@ class User(XdaBase):
         return self.xda.requests.basic_request(method, url, body=d)
 
     @login_required
-    def updatepassword(self, cur_password, new_password):
+    def update_password(self, cur_password, new_password):
         """Update the user's password.
 
         Args:
