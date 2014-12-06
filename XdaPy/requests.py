@@ -50,6 +50,10 @@ class Requests(XdaBase):
         req_func = getattr(self, method)
         return req_func(self.xda.host, url, body, headers)
 
+    def basic_request(self, *args, **kwargs):
+        r = self.make_request(*args, **kwargs)
+        return serialize.str_to_dict(r.read())
+
     @staticmethod
     def get_response(method, host, url, body=None, headers=None):
         if headers is None:

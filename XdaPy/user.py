@@ -17,7 +17,6 @@
 
 from .base import XdaBase
 from .decorators import login_required
-from . import serialize
 
 from getpass import getpass
 import sys
@@ -29,32 +28,28 @@ class User(XdaBase):
     def user(self):
         method = "GET"
         url = "/v1/user"
-        r = self.xda.requests.make_request(method, url)
-        return serialize.str_to_dict(r.read())
+        return self.xda.requests.basic_request(method, url)
 
     @login_required
     def logout(self):
         method = "GET"
         url = "/v1/user/logout"
-        r = self.xda.requests.make_request(method, url)
-        assert r.status == 200
         self.xda.session.remove_session()
+        return self.xda.requests.basic_request(method, url)
 
     @login_required
     def mentions(self, page=1):
         method = "GET"
         url = "/v1/user/mentions"
         d = {"page": page}
-        r = self.xda.requests.make_request(method, url, body=d)
-        return serialize.str_to_dict(r.read())
+        return self.xda.requests.basic_request(method, url, body=d)
 
     @login_required
     def quotes(self, page=1):
         method = "GET"
         url = "/v1/user/quotes"
         d = {"page": page}
-        r = self.xda.requests.make_request(method, url, body=d)
-        return serialize.str_to_dict(r.read())
+        return self.xda.requests.basic_request(method, url, body=d)
 
     def userinfo(self, user_id=None):
         if user_id is None:
@@ -62,16 +57,14 @@ class User(XdaBase):
         method = "GET"
         url = "/v1/user/userinfo"
         d = {"userid": user_id}
-        r = self.xda.requests.make_request(method, url, body=d)
-        return serialize.str_to_dict(r.read())
+        return self.xda.requests.basic_request(method, url, body=d)
 
     @login_required
     def addmydevice(self, device_id):
         method = "POST"
         url = "/v1/user/addmydevice"
         d = {"deviceid": device_id}
-        r = self.xda.requests.make_request(method, url, body=d)
-        return serialize.str_to_dict(r.read())
+        return self.xda.requests.basic_request(method, url, body=d)
 
     def login(self, username, password):
         method = "POST"
@@ -92,16 +85,14 @@ class User(XdaBase):
              "email": email,
              "captcha_chal": captcha_chal,
              "captcha_resp": captcha_resp}
-        r = self.xda.requests.make_request(method, url, body=d)
-        return serialize.str_to_dict(r.read())
+        return self.xda.requests.basic_request(method, url, body=d)
 
     @login_required
     def updateemail(self, email):
         method = "PUT"
         url = "/v1/user/updateemail"
         d = {"email": email}
-        r = self.xda.requests.make_request(method, url, body=d)
-        return serialize.str_to_dict(r.read())
+        return self.xda.requests.basic_request(method, url, body=d)
 
     @login_required
     def updatepassword(self, cur_password, new_password):
@@ -110,23 +101,19 @@ class User(XdaBase):
         d = {"current_password": cur_password,
              "newpassword": new_password,
              "newpasswordconfirm": new_password}
-        r = self.xda.requests.make_request(method, url, body=d)
-        return serialize.str_to_dict(r.read())
+        return self.xda.requests.basic_request(method, url, body=d)
 
     @login_required
     def delete_mentions(self):
         method = "DELETE"
         url = "/v1/user/notifications/mentions"
-        r = self.xda.requests.make_request(method, url, body=d)
-        return serialize.str_to_dict(r.read())
+        return self.xda.requests.basic_request(method, url)
 
     @login_required
     def delete_quotes(self):
         method = "DELETE"
         url = "/v1/user/notifications/quotes"
-        r = self.xda.requests.make_request(method, url, body=d)
-        return serialize.str_to_dict(r.read())
-
+        return self.xda.requests.basic_request(method, url)
 
     def default_login(self):
         """Call for the `login_required` decorator
