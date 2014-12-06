@@ -16,7 +16,58 @@
 # along with XdaPy.  If not, see <http://www.gnu.org/licenses/>.
 
 from .base import XdaBase
+from .decorators import login_required
 
 
 class Threads(XdaBase):
-    pass
+
+    def threads(self, forum_id, page=1):
+        method = "GET"
+        url = "/v1/threads"
+        d = {"forumid": forum_id,
+             "page": page}
+        return self.xda.requests.basic_request(method, url, body=d)
+
+    @login_required
+    def participated(self, page=1):
+        method = "GET"
+        url = "/v1/threads/participated"
+        d = {"page": page}
+        return self.xda.requests.basic_request(method, url, body=d)
+
+    @login_required
+    def subscribed(self, page=1, unread_only=False):
+        method = "GET"
+        url = "/v1/threads/subscribed"
+        d = {"page": page,
+             "unread_only": unread_only}
+        return self.xda.requests.basic_request(method, url, body=d)
+
+    def thread_info(self, thread_id):
+        method = "GET"
+        url = "/v1/threads/threadinfo"
+        d = {"threadid": thread_id}
+        return self.xda.requests.basic_request(method, url, body=d)
+
+    @login_required
+    def new(self, forum_id, title, message):
+        method = "POST"
+        url = "/v1/threads/new"
+        d = {"forumid": forum_id,
+             "title": title,
+             "message": message}
+        return self.xda.requests.basic_request(method, url, body=d)
+
+    @login_required
+    def subscribe(self, thread_id):
+        method = "POST"
+        url = "/v1/threads/subscribe"
+        d = {"threadid": thread_id}
+        return self.xda.requests.basic_request(method, url, body=d)
+
+    @login_required
+    def unsubscribe(self, thread_id):
+        method = "POST"
+        url = "/v1/threads/unsubscribe"
+        d = {"threadid": thread_id}
+        return self.xda.requests.basic_request(method, url, body=d)
