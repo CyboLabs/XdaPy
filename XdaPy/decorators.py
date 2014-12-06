@@ -18,7 +18,7 @@
 
 def login_required(func):
     def func_wrapper(self, *args, **kwargs):
-        if not self.xda.session.cookies:
-            self.xda.user.default_login()
+        while not self.xda.session.cookies:
+            self.xda.default_login()
         return func(self, *args, **kwargs)
     return func_wrapper

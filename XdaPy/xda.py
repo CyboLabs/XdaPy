@@ -15,7 +15,10 @@
 # You should have received a copy of the GNU General Public License
 # along with XdaPy.  If not, see <http://www.gnu.org/licenses/>.
 
-from . import apps, forums, pms, posts, user, requests, session
+from . import apps, forums, pms, posts, user, requests, session, serialize
+
+from getpass import getpass
+import sys
 
 
 class Xda(object):
@@ -30,4 +33,23 @@ class Xda(object):
 
         self.host = "api.xda-developers.com"
 
+    def login(self, username, password):
+        r = self.user.login(username, password)
+        data = serialize.str_to_dict(r.read())
+        if data.get("success", False):
+            cookies = self.requests.get_cookies(r)
+            self.session.set_session(username, cookies)
+        return data
 
+    def default_login(self):
+        """Call for the `login_required` decorator
+
+        override this to use custom methods for getting user input
+        """
+        sys.stdout.write("What is your username?\n")
+        u = sys.stdin.readline().strip()
+        p = getpass("What is your password: ")
+        d = self.login(u, p)
+        if not d.get("success", False):
+            sys.stdout.write("Error while logging in: %s\n" %
+                             d.get("error", {}).get("message", "Unknown Error"))

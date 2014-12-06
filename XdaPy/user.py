@@ -18,9 +18,6 @@
 from .base import XdaBase
 from .decorators import login_required
 
-from getpass import getpass
-import sys
-
 
 class User(XdaBase):
 
@@ -71,10 +68,7 @@ class User(XdaBase):
         url = "/v1/user/login"
         d = {"username": username,
              "password": password}
-        r = self.xda.requests.make_request(method, url, body=d)
-        assert r.status == 200
-        cookies = self.xda.requests.get_cookies(r)
-        self.xda.session.set_session(username, cookies)
+        return self.xda.requests.make_request(method, url, body=d)
 
     def register(self, username, password, email,
                  captcha_chal, captcha_resp):
@@ -114,13 +108,3 @@ class User(XdaBase):
         method = "DELETE"
         url = "/v1/user/notifications/quotes"
         return self.xda.requests.basic_request(method, url)
-
-    def default_login(self):
-        """Call for the `login_required` decorator
-
-        override this to use custom methods for getting user input
-        """
-        sys.stdout.write("What is your username?\n")
-        u = sys.stdin.readline().strip()
-        p = getpass("What is your password: ")
-        self.login(u, p)
