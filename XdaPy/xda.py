@@ -15,7 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with XdaPy.  If not, see <http://www.gnu.org/licenses/>.
 
-from . import apps, forums, pms, posts, user, requests, session, serialize
+from . import (apps, forums, pms, posts, user,
+               requests, session, serialize, threads)
 
 from getpass import getpass
 import sys
@@ -30,6 +31,7 @@ class Xda(object):
         self.posts = posts.Posts(self)
         self.user = user.User(self)
         self.requests = requests.Requests(self)
+        self.threads = threads.Threads(self)
 
         self.host = "api.xda-developers.com"
 
