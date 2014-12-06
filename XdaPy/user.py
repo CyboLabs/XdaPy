@@ -32,6 +32,30 @@ class User(XdaBase):
         r = self.xda.requests.make_request(method, url)
         return serialize.str_to_dict(r.read())
 
+    @requires_login
+    def mentions(self, page=1):
+        method = "GET"
+        url = "/v1/user/mentions"
+        d = {"page": page}
+        r = self.xda.requests.make_request(method, url, body=d)
+        return serialize.str_to_dict(r.read())
+
+    @requires_login
+    def quotes(self, page=1):
+        method = "GET"
+        url = "/v1/user/quotes"
+        d = {"page": page}
+        r = self.xda.requests.make_request(method, url, body=d)
+        return serialize.str_to_dict(r.read())
+
+    def userinfo(self, user_id=None):
+        if user_id is None:
+            return self.user()
+        method = "GET"
+        url = "/v1/user/userinfo"
+        d = {"userid": user_id}
+        r = self.xda.requests.make_request(method, url, body=d)
+        return serialize.str_to_dict(r.read())
 
     def login(self, username, password):
         method = "POST"
