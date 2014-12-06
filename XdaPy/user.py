@@ -33,6 +33,14 @@ class User(XdaBase):
         return serialize.str_to_dict(r.read())
 
     @requires_login
+    def logout(self):
+        method = "GET"
+        url = "/v1/user/logout"
+        r = self.xda.requests.make_request(method, url)
+        assert r.status == 200
+        self.xda.session.remove_session()
+
+    @requires_login
     def mentions(self, page=1):
         method = "GET"
         url = "/v1/user/mentions"
@@ -57,6 +65,14 @@ class User(XdaBase):
         r = self.xda.requests.make_request(method, url, body=d)
         return serialize.str_to_dict(r.read())
 
+    @requires_login
+    def addmydevice(self, device_id):
+        method = "POST"
+        url = "/v1/user/addmydevice"
+        d = {"deviceid": device_id}
+        r = self.xda.requests.make_request(method, url, body=d)
+        return serialize.str_to_dict(r.read())
+
     def login(self, username, password):
         method = "POST"
         url = "/v1/user/login"
@@ -67,13 +83,50 @@ class User(XdaBase):
         cookies = self.xda.requests.get_cookies(r)
         self.xda.session.set_session(username, cookies)
 
+    def register(self, username, password, email,
+                 captcha_chal, captcha_resp):
+        method = "POST"
+        url = "/v1/user/register"
+        d = {"username": username,
+             "password": password,
+             "email": email,
+             "captcha_chal": captcha_chal,
+             "captcha_resp": captcha_resp}
+        r = self.xda.requests.make_request(method, url, body=d)
+        return serialize.str_to_dict(r.read())
+
     @requires_login
-    def logout(self):
-        method = "GET"
-        url = "/v1/user/logout"
-        r = self.xda.requests.make_request(method, url)
-        assert r.status == 200
-        self.xda.session.remove_session()
+    def updateemail(self, email):
+        method = "PUT"
+        url = "/v1/user/updateemail"
+        d = {"email": email}
+        r = self.xda.requests.make_request(method, url, body=d)
+        return serialize.str_to_dict(r.read())
+
+    @requires_login
+    def updatepassword(self, cur_password, new_password):
+        method = "PUT"
+        url = "/v1/user/updatepassword"
+        d = {"current_password": cur_password,
+             "newpassword": new_password,
+             "newpasswordconfirm": new_password}
+        r = self.xda.requests.make_request(method, url, body=d)
+        return serialize.str_to_dict(r.read())
+
+    @requires_login
+    def delete_mentions(self):
+        method = "DELETE"
+        url = "/v1/user/notifications/mentions"
+        r = self.xda.requests.make_request(method, url, body=d)
+        return serialize.str_to_dict(r.read())
+
+    @requires_login
+    def delete_quotes(self):
+        method = "DELETE"
+        url = "/v1/user/notifications/quotes"
+        r = self.xda.requests.make_request(method, url, body=d)
+        return serialize.str_to_dict(r.read())
+
 
     def default_login(self):
         """Call for the `requires_login` decorator
