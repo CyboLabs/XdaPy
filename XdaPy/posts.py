@@ -16,7 +16,54 @@
 # along with XdaPy.  If not, see <http://www.gnu.org/licenses/>.
 
 from .base import XdaBase
+from .decorators import login_required
 
 
 class Posts(XdaBase):
-    pass
+
+    def posts(self, thread_id, page=1):
+        method = "GET"
+        url = "/v1/posts"
+        d = {"threadid": thread_id,
+             "page": page}
+        return self.xda.requests.basic_request(method, url, body=d)
+
+    def by_post_id(self, post_id):
+        method = "GET"
+        url = "/v1/posts/bypostid"
+        d = {"postid": post_id}
+        return self.xda.requests.basic_request(method, url, body=d)
+
+    @login_required
+    def new_post(self, thread_id):
+        method = "GET"
+        url = "/v1/posts/newpost"
+        d = {"threadid": thread_id}
+        return self.xda.requests.basic_request(method, url, body=d)
+
+    def smilies(self):
+        method = "GET"
+        url = "/v1/posts/smilies"
+        return self.xda.requests.basic_request(method, url)
+
+    @login_required
+    def new(self, post_id, message):
+        method = "POST"
+        url = "/v1/posts/new"
+        d = {"postid": post_id,
+             "message": message}
+        return self.xda.requests.basic_request(method, url, body=d)
+
+    @login_required
+    def thanks(self, post_id):
+        method = "POST"
+        url = "/v1/posts/thanks"
+        d = {"postid": post_id}
+        return self.xda.requests.basic_request(method, url, body=d)
+
+    @login_required
+    def delete_thanks(self, post_id):
+        method = "DELETE"
+        url = "/v1/posts/thanks"
+        d = {"postid": post_id}
+        return self.xda.requests.basic_request(method, url, body=d)
