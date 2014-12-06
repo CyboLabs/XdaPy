@@ -24,10 +24,12 @@ from . import serialize
 try:
     import http.client
     import http.cookies
+    from urllib.parse import urlencode
 except ImportError:
     import imp
     import httplib
     import Cookie
+    from urllib import urlencode
     http = imp.new_module('http')
     http.client = httplib
     http.cookies = Cookie
@@ -44,6 +46,13 @@ class Requests(XdaBase):
         method = method.lower()
         if method not in self.methods:
             raise Exception  # Will have it's own exception in future
+
+        # convert the body dictionary to get parameters if method is GET
+        if method.lower() == "get" and body:
+            get_params = urlencode(body)
+            url = "?".join((url, get_params))
+            body = None
+
         headers['Cookie'] = self.xda.session.cookie_str
         if type(body) == dict:
             body = serialize.dict_to_str(body)
