@@ -19,4 +19,10 @@ from .base import XdaBase
 
 
 class Apps(XdaBase):
-    pass
+
+    def promoted(self, limit=None):
+        method = "GET"
+        url = "/v1/apps/promoted"
+        # limit is broken on the xda api, so can't test this properly
+        d = None if limit else {"limit": limit}
+        return self.xda.requests.basic_request(method, url, body=d)
