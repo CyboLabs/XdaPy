@@ -46,6 +46,13 @@ class Posts(XdaBase):
         url = "/v1/posts/smilies"
         return self.xda.requests.basic_request(method, url)
 
+    def add_attachment(self, post_id):
+        method = "POST"
+        url = "/v1/posts/addattachment"
+        d = {"postid": post_id}
+        # return self.xda.requests.basic_request(method, url, body=d)
+        raise Exception("Not implemented yet")
+
     @login_required
     def new(self, post_id, message):
         method = "POST"
