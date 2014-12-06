@@ -48,7 +48,7 @@ class Requests(XdaBase):
             raise Exception  # Will have it's own exception in future
 
         # convert the body dictionary to get parameters if method is GET
-        if method.lower() == "get" and body:
+        if method.lower() in ["get", "delete"] and body:
             get_params = urlencode(body)
             url = "?".join((url, get_params))
             body = None
