@@ -16,7 +16,7 @@
 # along with XdaPy.  If not, see <http://www.gnu.org/licenses/>.
 
 from .base import XdaBase
-from .decorators import requires_login
+from .decorators import login_required
 from . import serialize
 
 from getpass import getpass
@@ -25,14 +25,14 @@ import sys
 
 class User(XdaBase):
 
-    @requires_login
+    @login_required
     def user(self):
         method = "GET"
         url = "/v1/user"
         r = self.xda.requests.make_request(method, url)
         return serialize.str_to_dict(r.read())
 
-    @requires_login
+    @login_required
     def logout(self):
         method = "GET"
         url = "/v1/user/logout"
@@ -40,7 +40,7 @@ class User(XdaBase):
         assert r.status == 200
         self.xda.session.remove_session()
 
-    @requires_login
+    @login_required
     def mentions(self, page=1):
         method = "GET"
         url = "/v1/user/mentions"
@@ -48,7 +48,7 @@ class User(XdaBase):
         r = self.xda.requests.make_request(method, url, body=d)
         return serialize.str_to_dict(r.read())
 
-    @requires_login
+    @login_required
     def quotes(self, page=1):
         method = "GET"
         url = "/v1/user/quotes"
@@ -65,7 +65,7 @@ class User(XdaBase):
         r = self.xda.requests.make_request(method, url, body=d)
         return serialize.str_to_dict(r.read())
 
-    @requires_login
+    @login_required
     def addmydevice(self, device_id):
         method = "POST"
         url = "/v1/user/addmydevice"
@@ -95,7 +95,7 @@ class User(XdaBase):
         r = self.xda.requests.make_request(method, url, body=d)
         return serialize.str_to_dict(r.read())
 
-    @requires_login
+    @login_required
     def updateemail(self, email):
         method = "PUT"
         url = "/v1/user/updateemail"
@@ -103,7 +103,7 @@ class User(XdaBase):
         r = self.xda.requests.make_request(method, url, body=d)
         return serialize.str_to_dict(r.read())
 
-    @requires_login
+    @login_required
     def updatepassword(self, cur_password, new_password):
         method = "PUT"
         url = "/v1/user/updatepassword"
@@ -113,14 +113,14 @@ class User(XdaBase):
         r = self.xda.requests.make_request(method, url, body=d)
         return serialize.str_to_dict(r.read())
 
-    @requires_login
+    @login_required
     def delete_mentions(self):
         method = "DELETE"
         url = "/v1/user/notifications/mentions"
         r = self.xda.requests.make_request(method, url, body=d)
         return serialize.str_to_dict(r.read())
 
-    @requires_login
+    @login_required
     def delete_quotes(self):
         method = "DELETE"
         url = "/v1/user/notifications/quotes"
@@ -129,7 +129,7 @@ class User(XdaBase):
 
 
     def default_login(self):
-        """Call for the `requires_login` decorator
+        """Call for the `login_required` decorator
 
         override this to use custom methods for getting user input
         """

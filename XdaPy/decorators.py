@@ -16,7 +16,7 @@
 # along with XdaPy.  If not, see <http://www.gnu.org/licenses/>.
 
 
-def requires_login(func):
+def login_required(func):
     def func_wrapper(self, *args, **kwargs):
         if not self.xda.session.cookies:
             self.xda.user.default_login()
