@@ -16,7 +16,52 @@
 # along with XdaPy.  If not, see <http://www.gnu.org/licenses/>.
 
 from .base import XdaBase
+from .decorators import login_required
 
 
 class Pms(XdaBase):
-    pass
+
+    @login_required
+    def inbox(self, page=1, unread_only=False):
+        method = "GET"
+        url = "/v1/pms/inbox"
+        d = {"page": page,
+             "unread_only": unread_only}
+        return self.xda.requests.basic_request(method, url, body=d)
+
+    @login_required
+    def sent(self, page=1):
+        method = "GET"
+        url = "/v1/pms/sent"
+        d = {"page": page}
+        return self.xda.requests.basic_request(method, url, body=d)
+
+    @login_required
+    def send(self, username, subject, message):
+        method = "POST"
+        url = "/v1/pms/send"
+        d = {"username": username,
+             "subject": subject,
+             "message": message}
+        return self.xda.requests.basic_request(method, url, body=d)
+
+    @login_required
+    def mark_read(self, pm_id):
+        method = "PUT"
+        url = "/v1/pms/markread"
+        d = {"pmid": pm_id}
+        return self.xda.requests.basic_request(method, url, body=d)
+
+    @login_required
+    def mark_unread(self, pm_id):
+        method = "PUT"
+        url = "/v1/pms/markunread"
+        d = {"pmid": pm_id}
+        return self.xda.requests.basic_request(method, url, body=d)
+
+    @login_required
+    def delete_pm(self, pm_id):
+        method = "DELETE"
+        url = "/v1/pms"
+        d = {"pmid": pm_id}
+        return self.xda.requests.basic_request(method, url, body=d)
