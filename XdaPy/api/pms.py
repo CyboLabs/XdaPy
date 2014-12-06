@@ -15,8 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with XdaPy.  If not, see <http://www.gnu.org/licenses/>.
 
-from .base import XdaBase
-from .decorators import login_required
+from ..base import XdaBase
+from ..decorators import login_required
 
 
 class Pms(XdaBase):

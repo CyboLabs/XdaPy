@@ -15,14 +15,14 @@
 # You should have received a copy of the GNU General Public License
 # along with XdaPy.  If not, see <http://www.gnu.org/licenses/>.
 
-from .base import XdaBase
+from . import apps, forums, pms, posts, threads, user
 
 
-class Apps(XdaBase):
-
-    def promoted(self, limit=None):
-        method = "GET"
-        url = "/v1/apps/promoted"
-        # limit is broken on the xda api, so can't test this properly
-        d = None if limit else {"limit": limit}
-        return self.xda.requests.basic_request(method, url, body=d)
+class Api(object):
+    def __init__(self, xda):
+        self.apps = apps.Apps(xda)
+        self.forums = forums.Forums(xda)
+        self.pms = pms.Pms(xda)
+        self.posts = posts.Posts(xda)
+        self.user = user.User(xda)
+        self.threads = threads.Threads(xda)

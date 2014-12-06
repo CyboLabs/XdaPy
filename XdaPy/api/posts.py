@@ -15,67 +15,62 @@
 # You should have received a copy of the GNU General Public License
 # along with XdaPy.  If not, see <http://www.gnu.org/licenses/>.
 
-from .base import XdaBase
-from .decorators import login_required
+from ..base import XdaBase
+from ..decorators import login_required
 
 
-class Forums(XdaBase):
+class Posts(XdaBase):
 
-    def forums(self):
+    def posts(self, thread_id, page=1):
         method = "GET"
-        url = "/v1/forums"
-        return self.xda.requests.basic_request(method, url)
-
-    def children(self, forum_id):
-        method = "GET"
-        url = "/v1/forums/children"
-        d = {"forumid": forum_id}
+        url = "/v1/posts"
+        d = {"threadid": thread_id,
+             "page": page}
         return self.xda.requests.basic_request(method, url, body=d)
 
-    def find_by_device(self, query):
+    def by_post_id(self, post_id):
         method = "GET"
-        url = "/v1/forums/findbydevice"
-        d = {"search": query}
+        url = "/v1/posts/bypostid"
+        d = {"postid": post_id}
         return self.xda.requests.basic_request(method, url, body=d)
 
-    def general(self):
-        method = "GET"
-        url = "/v1/forums/general"
-        return self.xda.requests.basic_request(method, url)
-
-    def newest(self):
-        method = "GET"
-        url = "/v1/forums/newest"
-        return self.xda.requests.basic_request(method, url)
-
     @login_required
-    def subscribed(self):
+    def new_post(self, thread_id):
         method = "GET"
-        url = "/v1/forums/subscribed"
+        url = "/v1/posts/newpost"
+        d = {"threadid": thread_id}
+        return self.xda.requests.basic_request(method, url, body=d)
+
+    def smilies(self):
+        method = "GET"
+        url = "/v1/posts/smilies"
         return self.xda.requests.basic_request(method, url)
 
-    def top(self):
-        method = "GET"
-        url = "/v1/forums/top"
-        return self.xda.requests.basic_request(method, url)
-
-    @login_required
-    def subscribe(self, forum_id):
+    def add_attachment(self, post_id):
         method = "POST"
-        url = "/v1/forums/subscribe"
-        d = {"forumid": forum_id}
-        return self.xda.requests.basic_request(method, url, body=d)
+        url = "/v1/posts/addattachment"
+        d = {"postid": post_id}
+        # return self.xda.requests.basic_request(method, url, body=d)
+        raise Exception("Not implemented yet")
 
     @login_required
-    def mark_read(self, forum_id):
+    def new(self, post_id, message):
         method = "POST"
-        url = "/v1/forums/markread"
-        d = {"forumid": forum_id}
+        url = "/v1/posts/new"
+        d = {"postid": post_id,
+             "message": message}
         return self.xda.requests.basic_request(method, url, body=d)
 
     @login_required
-    def unsubscribe(self, forum_id):
+    def thanks(self, post_id):
+        method = "POST"
+        url = "/v1/posts/thanks"
+        d = {"postid": post_id}
+        return self.xda.requests.basic_request(method, url, body=d)
+
+    @login_required
+    def delete_thanks(self, post_id):
         method = "DELETE"
-        url = "/v1/forums/unsubscribe"
-        d = {"forumid": forum_id}
+        url = "/v1/posts/thanks"
+        d = {"postid": post_id}
         return self.xda.requests.basic_request(method, url, body=d)

@@ -15,28 +15,21 @@
 # You should have received a copy of the GNU General Public License
 # along with XdaPy.  If not, see <http://www.gnu.org/licenses/>.
 
-from . import (apps, forums, pms, posts, user,
-               requests, session, serialize, threads)
-
+from . import requests, session, serialize, api
 from getpass import getpass
 import sys
 
 
 class Xda(object):
     def __init__(self):
+        self.api = api.Api(self)
         self.session = session.Session(self)
-        self.apps = apps.Apps(self)
-        self.forums = forums.Forums(self)
-        self.pms = pms.Pms(self)
-        self.posts = posts.Posts(self)
-        self.user = user.User(self)
         self.requests = requests.Requests(self)
-        self.threads = threads.Threads(self)
 
         self.host = "api.xda-developers.com"
 
     def login(self, username, password):
-        r = self.user.login(username, password)
+        r = self.api.user.login(username, password)
         data = serialize.str_to_dict(r.read())
         if data.get("success", False):
             cookies = self.requests.get_cookies(r)
