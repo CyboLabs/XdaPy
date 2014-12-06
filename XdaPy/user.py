@@ -23,12 +23,22 @@ class User(XdaBase):
 
     @login_required
     def user(self):
+        """Return a dict containing info about the logged in user.
+
+        See Also:
+            https://api.xda-developers.com/explorer/#!/user/retrieve_get
+        """
         method = "GET"
         url = "/v1/user"
         return self.xda.requests.basic_request(method, url)
 
     @login_required
     def logout(self):
+        """Log the user out.
+
+        See Also:
+            https://api.xda-developers.com/explorer/#!/user/logout_get
+        """
         method = "GET"
         url = "/v1/user/logout"
         self.xda.session.remove_session()
@@ -36,6 +46,14 @@ class User(XdaBase):
 
     @login_required
     def mentions(self, page=1):
+        """Return a dict containing the user's mention feed.
+
+        Args:
+            page (int, optional): number of pages to return. Defaults to 1.
+
+        See Also:
+            https://api.xda-developers.com/explorer/#!/user/mentions_get
+        """
         method = "GET"
         url = "/v1/user/mentions"
         d = {"page": page}
@@ -43,12 +61,29 @@ class User(XdaBase):
 
     @login_required
     def quotes(self, page=1):
+        """Return a dict containing the user's quote feed.
+
+        Args:
+            page (int, optional): number of pages to return. Defaults to 1.
+
+        See Also:
+            https://api.xda-developers.com/explorer/#!/user/quotes_get
+        """
         method = "GET"
         url = "/v1/user/quotes"
         d = {"page": page}
         return self.xda.requests.basic_request(method, url, body=d)
 
     def userinfo(self, user_id=None):
+        """Return a dict containing public info for a user.
+
+        Args:
+            user_id (int, optional): The ID of the user to get the info for.
+                Defaults to the logged in user's ID.
+
+        See Also:
+            https://api.xda-developers.com/explorer/#!/user/retrieveUserInfo_get
+        """
         if user_id is None:
             return self.user()
         method = "GET"
@@ -58,12 +93,31 @@ class User(XdaBase):
 
     @login_required
     def addmydevice(self, device_id):
+        """Add a device to "My Devices" for the logged in user.
+
+        Args:
+            device_id (int): The ID of the device to add. This is the device's
+                top forum ID.
+
+        See Also:
+            `forums.find_by_device()`
+            https://api.xda-developers.com/explorer/#!/user/retrieveUserInfo_get
+        """
         method = "POST"
         url = "/v1/user/addmydevice"
         d = {"deviceid": device_id}
         return self.xda.requests.basic_request(method, url, body=d)
 
     def login(self, username, password):
+        """Log in.
+
+        Args:
+            username (str): username.
+            password (str): password.
+
+        See Also:
+            https://api.xda-developers.com/explorer/#!/user/createLogin_post
+        """
         method = "POST"
         url = "/v1/user/login"
         d = {"username": username,
@@ -72,6 +126,19 @@ class User(XdaBase):
 
     def register(self, username, password, email,
                  captcha_chal, captcha_resp):
+        """Register a new user.
+
+        Args:
+            username (str): desired username.
+            password (str): desired password.
+            email (str): email address.
+            captcha_chal (str): captcha challenge.
+            captcha_resp (str): captcha challenge response.
+
+        See Also:
+            https://api.xda-developers.com/explorer/#!/user/createRegister_post
+        """
+        method = "POST"
         method = "POST"
         url = "/v1/user/register"
         d = {"username": username,
@@ -83,6 +150,14 @@ class User(XdaBase):
 
     @login_required
     def updateemail(self, email):
+        """Update the user's email address.
+
+        Args:
+            email (str): new email address.
+
+        See Also:
+            https://api.xda-developers.com/explorer/#!/user/updateUpdateEmail_put
+        """
         method = "PUT"
         url = "/v1/user/updateemail"
         d = {"email": email}
@@ -90,6 +165,15 @@ class User(XdaBase):
 
     @login_required
     def updatepassword(self, cur_password, new_password):
+        """Update the user's password.
+
+        Args:
+            cur_password (str): current password.
+            new_password (str): new password.
+
+        See Also:
+            https://api.xda-developers.com/explorer/#!/user/updateUpdatePassword_put
+        """
         method = "PUT"
         url = "/v1/user/updatepassword"
         d = {"current_password": cur_password,
@@ -99,12 +183,22 @@ class User(XdaBase):
 
     @login_required
     def delete_mentions(self):
+        """Clear notifications for mentions.
+
+        See Also:
+            https://api.xda-developers.com/explorer/#!/user/mentionNotifications_delete
+        """
         method = "DELETE"
         url = "/v1/user/notifications/mentions"
         return self.xda.requests.basic_request(method, url)
 
     @login_required
     def delete_quotes(self):
+        """Clear notifications for quotes.
+
+        See Also:
+            https://api.xda-developers.com/explorer/#!/user/quotesNotifications_delete
+        """
         method = "DELETE"
         url = "/v1/user/notifications/quotes"
         return self.xda.requests.basic_request(method, url)

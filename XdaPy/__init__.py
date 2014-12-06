@@ -22,6 +22,7 @@ VERSION = (0, 1, 0, 'alpha', 0)
 
 
 def get_version():
+    """Return XdaPy's version."""
     main = '.'.join(str(x) for x in VERSION[:3])
     sub = ''
     if VERSION[3] == 'alpha' and VERSION[4] == 0:
@@ -33,6 +34,7 @@ def get_version():
 
 
 def get_git_hash():
+    """Return the abbreviated hash of the latest git commit."""
     repo_dir = dirname(dirname(abspath(__file__)))
     git_hash = Popen("git log --pretty=format:'%h' -n 1",
                      stdout=PIPE, stderr=PIPE,
