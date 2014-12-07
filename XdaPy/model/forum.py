@@ -40,6 +40,9 @@ class Forum(object):
         self.has_children = bool(data.get("haschildren") or
                                  self.children_count)
 
+        # this is only used the findbydevice method
+        self.device = data.get("device", "")
+
     @staticmethod
     def load_children(children):
         data = []
