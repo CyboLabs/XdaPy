@@ -21,13 +21,28 @@ class Forum(object):
         if data is None:
             data = {}
         assert hasattr(data, "get")
-        self.title = data.get("title")
-        self.forum_id = data.get("forumid")
-        self.parent_id = data.get("parentid")
-        self.forum_slug = data.get("forumslug")
+        self.title = data.get("title", "")
+        self.forum_id = data.get("forumid", "")
+        self.parent_id = data.get("parentid", "")
+        self.forum_slug = data.get("forumslug", "")
         self.subscribed = bool(data.get("subscribed"))
-        self.image = data.get("image")
-        self.searchable = data.get("searchable")
+        self.image = data.get("image", "")
+        self.searchable = data.get("searchable", "")
         self.can_contain_threads = bool(data.get("cancontainthreads"))
-        self.web_uri = data.get("web_uri")
-        self.has_children = bool(data.get("haschildren"))
+        self.web_uri = data.get("web_uri", "")
+
+        # these are used in the forum list
+        self.children = self.load_children(data.get("children", []))
+        self.children_count = data.get("children_count", 0)
+
+        # this is only used for the device list. Make it respect the
+        # forum list children too.
+        self.has_children = bool(data.get("haschildren") or
+                                 self.children_count)
+
+    @staticmethod
+    def load_children(children):
+        data = []
+        for c in children:
+            data.append(Forum(c))
+        return data
