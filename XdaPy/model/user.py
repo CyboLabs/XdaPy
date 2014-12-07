@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with XdaPy.  If not, see <http://www.gnu.org/licenses/>.
 
+from .notification import NotificationCount
+
 
 class User(object):
     def __init__(self, data):
@@ -37,15 +39,9 @@ class User(object):
         self.devices = self.load_devices(data.get("devices", []))
         self.email = data.get("email", "")
         self.logout_hash = data.get("logouthash", "")
-        self.notifications = self.load_notifications(data.get("notifications", {}))
-
+        self.notifications = NotificationCount(data.get("notifications", {}))
 
     @staticmethod
     def load_devices(device_data):
         # This will be updated when the device model is done
         return device_data
-
-    @staticmethod
-    def load_notifications(notification_data):
-        # This will be updated when notification model is done
-        return notification_data
