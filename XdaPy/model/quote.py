@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with XdaPy.  If not, see <http://www.gnu.org/licenses/>.
 
+from .thread import Thread
+
 
 class Mention(object):
     def __init__(self, data):
@@ -32,4 +34,4 @@ class Mention(object):
         self.quoted_user_group_id = data.get("quotedusergroupid", "")
         self.quoted_infraction_group_id = data.get("quotedinfractiongroupid", "")
         self.avatar_url = data.get("avatar_url", "")
-        self.thread = data.get("thread", {})  # this will link back to a thread object
+        self.thread = Thread(data.get("thread", {}))
