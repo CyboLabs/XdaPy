@@ -42,3 +42,4 @@ class NotificationCount(object):
         self.mentions = nct(data.get("dbtech_usertag_mentioncount"))
         self.quotes = nct(data.get("dbtech_usertag_quotecount"))
         self.dev_db_updates = nct(data.get("devdbupdates"))
+        self.total = data.get("total", 0)
