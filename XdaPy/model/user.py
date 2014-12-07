@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with XdaPy.  If not, see <http://www.gnu.org/licenses/>.
 
+from .forum import Forum
 from .notification import NotificationCount
 
 
@@ -43,5 +44,8 @@ class User(object):
 
     @staticmethod
     def load_devices(device_data):
-        # This will be updated when the device model is done
-        return device_data
+        # the device list is actually made up of Forum objects
+        data = []
+        for d in device_data:
+            data.append(Forum(d))
+        return data
