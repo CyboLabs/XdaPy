@@ -21,6 +21,9 @@ from .notification import NotificationCount
 
 class User(object):
     def __init__(self, data):
+        if data is None:
+            data = {}
+        assert hasattr(data, "get")
         self.user_id = data.get("userid", "")
         self.username = data.get("username", "")
         self.homepage = data.get("homepage", "")
