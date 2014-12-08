@@ -22,7 +22,7 @@ class Post(object):
             data = {}
         assert hasattr(data, "get")
         self.post_id = data.get("postid", "")
-        self.visible = bool(data.get("visible"))
+        self.visible = bool(int(data.get("visible")))
         self.user_id = data.get("userid", "")
         self.title = data.get("title", "")
         self.page_text = data.get("pagetext", "")
@@ -30,4 +30,4 @@ class Post(object):
         self.date_line = data.get("dateline", "")
         self.avatar_url = data.get("avatar_url", "")
         self.thanks_count = data.get("thanks_count", "")
-        self.has_thanked = bool(data.get("has_thanked"))
+        self.has_thanked = bool(int(data.get("has_thanked")))

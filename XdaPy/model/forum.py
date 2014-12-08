@@ -22,13 +22,13 @@ class Forum(object):
             data = {}
         assert hasattr(data, "get")
         self.title = data.get("title", "")
-        self.forum_id = data.get("forumid", "")
-        self.parent_id = data.get("parentid", "")
+        self.forum_id = data.get("forumid", -1)
+        self.parent_id = data.get("parentid", -1)
         self.forum_slug = data.get("forumslug", "")
-        self.subscribed = bool(data.get("subscribed"))
+        self.subscribed = bool(int(data.get("subscribed")))
         self.image = data.get("image", "")
         self.searchable = data.get("searchable", "")
-        self.can_contain_threads = bool(data.get("cancontainthreads"))
+        self.can_contain_threads = bool(int(data.get("cancontainthreads")))
         self.web_uri = data.get("web_uri", "")
 
         # these are used in the forum list
@@ -37,8 +37,8 @@ class Forum(object):
 
         # this is only used for the device list. Make it respect the
         # forum list children too.
-        self.has_children = bool(data.get("haschildren") or
-                                 self.children_count)
+        self.has_children = bool(int(data.get("haschildren") or
+                                 self.children_count))
 
         # this is only used the findbydevice method
         self.device = data.get("device", "")

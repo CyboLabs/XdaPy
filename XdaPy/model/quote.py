@@ -34,4 +34,4 @@ class Mention(object):
         self.quoted_user_group_id = data.get("quotedusergroupid", "")
         self.quoted_infraction_group_id = data.get("quotedinfractiongroupid", "")
         self.avatar_url = data.get("avatar_url", "")
-        self.thread = Thread(data.get("thread", {}))
+        self.thread = Thread(data.get("thread"))

@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with XdaPy.  If not, see <http://www.gnu.org/licenses/>.
 
+from ..third_party.phpserialize import load as php_load
+
 
 class Pm(object):
     def __init__(self, data):
@@ -27,10 +29,20 @@ class Pm(object):
         self.title = data.get("title", "")
         self.message = data.get("message", "")
         self.date_line = data.get("dateline", "")
-        self.show_signature = bool(data.get("showsignature"))
-        self.allow_smilie = bool(data.get("allowsmilie"))
+        self.show_signature = bool(int(data.get("showsignature")))
+        self.allow_smilie = bool(int(data.get("allowsmilie")))
         self.avatar_url = data.get("avatar_url", "")
         self.message_read = data.get("message_read", "")
 
-        # This needs future investigation for how to parse it
-        self.to_user_array = data.get("touserarray", "")
+        # see http://goo.gl/seoVvh
+        self.to_user_array = self.get_php_array(data.get("touserarray", ""))
+
+    @staticmethod
+    def get_php_array(array):
+        # I've requested for deserializing to take place on the
+        # server, since not all languages will be able to do this.
+        try:
+            d = dict(array)
+        except ValueError:
+            d = php_load(array)
+        return d
