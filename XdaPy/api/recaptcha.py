@@ -32,3 +32,24 @@ class Recaptcha(XdaBase):
         start = d.find("challenge : ") + 13
         end = d.find("',\n", start)
         return d[start:end]
+
+    def get_token(self, t_type, challenge=None):
+        if challenge is None:
+            challenge = self.get_challenge()
+        t_type = t_type.lower()
+        assert t_type in ["image", "audio"]
+        url = "/recaptcha/api/reload"
+        params = "c=%s&k=%s&type=%s" % (
+            challenge, self.public_key, t_type
+        )
+        url = "?".join((url, params))
+        d = self.xda.requests.get(self.host, url).read()
+        start = d.find("('") + 2
+        end = d.find("', ", start)
+        return d[start:end]
+
+    def get_image_token(self, challenge=None):
+        return self.get_token("image", challenge=challenge)
+
+    def get_audio_token(self, challenge=None):
+        return self.get_token("audio", challenge=challenge)
