@@ -15,15 +15,20 @@
 # You should have received a copy of the GNU General Public License
 # along with XdaPy.  If not, see <http://www.gnu.org/licenses/>.
 
-from . import apps, forums, pms, posts, recaptcha, threads, user
+from ..base import XdaBase
 
 
-class Api(object):
+class Recaptcha(XdaBase):
     def __init__(self, xda):
-        self.apps = apps.Apps(xda)
-        self.forums = forums.Forums(xda)
-        self.pms = pms.Pms(xda)
-        self.posts = posts.Posts(xda)
-        self.user = user.User(xda)
-        self.threads = threads.Threads(xda)
-        self.recaptcha = recaptcha.Recaptcha(xda)
+        super(Recaptcha, self).__init__(xda)
+        self.host = "www.google.com"
+        self.public_key = "6LcVyfcSAAAAAG1QaNlcl6o84brVL9sCVF707V8Q"
+
+    def get_challenge(self):
+        url = "/recaptcha/api/challenge"
+        params = "k=%s" % self.public_key
+        url = "?".join((url, params))
+        d = self.xda.requests.get(self.host, url).read()
+        start = d.find("challenge : ") + 13
+        end = d.find("',\n", start)
+        return d[start:end]
