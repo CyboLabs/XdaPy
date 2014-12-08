@@ -53,3 +53,21 @@ class Recaptcha(XdaBase):
 
     def get_audio_token(self, challenge=None):
         return self.get_token("audio", challenge=challenge)
+
+    def get_image(self, challenge=None):
+        if challenge is None:
+            challenge = self.get_image_token()
+        url = "/recaptcha/api/image"
+        params = "c=%s" % challenge
+        url = "?".join((url, params))
+        img = self.xda.requests.get(self.host, url).read()
+        return url, img
+
+    def get_audio(self, challenge=None):
+        if challenge is None:
+            challenge = self.get_audio_token()
+        url = "/recaptcha/api/audio"
+        params = "c=%s" % challenge
+        url = "?".join((url, params))
+        audio = self.xda.requests.get(self.host, url).read()
+        return url, audio
