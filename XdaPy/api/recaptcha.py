@@ -29,6 +29,7 @@ class Recaptcha(XdaBase):
         params = "k=%s" % self.public_key
         url = "?".join((url, params))
         d = self.xda.requests.get(self.host, url).read()
+        d = d.decode('utf-8') if type(d) == bytes else d
         start = d.find("challenge : ") + 13
         end = d.find("',\n", start)
         return d[start:end]
@@ -44,6 +45,7 @@ class Recaptcha(XdaBase):
         )
         url = "?".join((url, params))
         d = self.xda.requests.get(self.host, url).read()
+        d = d.decode('utf-8') if type(d) == bytes else d
         start = d.find("('") + 2
         end = d.find("', ", start)
         return d[start:end]
