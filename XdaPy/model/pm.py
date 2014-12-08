@@ -15,7 +15,21 @@
 # You should have received a copy of the GNU General Public License
 # along with XdaPy.  If not, see <http://www.gnu.org/licenses/>.
 
-from ..third_party.phpserialize import load as php_load
+
+class ToUser(object):
+    def __init__(self, data):
+        if data is None:
+            data = {}
+        assert hasattr(data, "get")
+        self.cc = self.key_val_pair(data.get("cc", {}))
+        self.bcc = self.key_val_pair(data.get("bcc", {}))
+
+    @staticmethod
+    def key_val_pair(data):
+        d = []
+        for i, u in data.items():
+            d.append((i, u))
+        return d
 
 
 class Pm(object):
@@ -35,14 +49,5 @@ class Pm(object):
         self.message_read = data.get("message_read", "")
 
         # see http://goo.gl/seoVvh
-        self.to_user_array = self.get_php_array(data.get("touserarray", ""))
-
-    @staticmethod
-    def get_php_array(array):
-        # I've requested for deserializing to take place on the
-        # server, since not all languages will be able to do this.
-        try:
-            d = dict(array)
-        except ValueError:
-            d = php_load(array)
-        return d
+        self.to_user_array = data.get("touserarray", "")
+        self.to_user = ToUser(data.get("touser", {}))
