@@ -120,7 +120,7 @@ class User(XdaBase):
         method = "POST"
         url = "/v1/user/googlelogin"
         d = {"access_token": access_token}
-        return self.xda.requests.basic_request(method, url, body=d)
+        return self.xda.requests.make_request(method, url, body=d)
 
     def google_register(self, access_token, username):
         """Register a new account using Google+
