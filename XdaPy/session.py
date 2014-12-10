@@ -25,6 +25,7 @@ class Session(XdaBase):
     def __init__(self, xda):
         super(Session, self).__init__(xda)
         self.cookies = {}
+        self.google_session = GoogleSession()
 
     @property
     def cookie_str(self):
@@ -35,3 +36,21 @@ class Session(XdaBase):
 
     def remove_session(self):
         self.cookies = {}
+
+
+class GoogleSession(object):
+    def __init__(self):
+        self.client_id = ""
+        self.client_secret = ""
+        self.access_token = ""
+        self.token_type = ""
+        self.refresh_token = ""
+
+    def set_client(self, client_id, client_secret):
+        self.client_id = client_id
+        self.client_secret = client_secret
+
+    def set_token(self, access, refresh, token_type):
+        self.access_token = access
+        self.token_type = token_type
+        self.refresh_token = refresh

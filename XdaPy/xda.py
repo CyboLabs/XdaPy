@@ -22,11 +22,11 @@ import sys
 
 class Xda(object):
     def __init__(self):
-        self.api = api.Api(self)
+        self.host = "api.xda-developers.com"
+
         self.session = session.Session(self)
         self.requests = requests.Requests(self)
-
-        self.host = "api.xda-developers.com"
+        self.api = api.Api(self)
 
     def login(self, username, password):
         r = self.api.user.login(username, password)

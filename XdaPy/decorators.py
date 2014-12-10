@@ -22,3 +22,21 @@ def login_required(func):
             self.xda.default_login()
         return func(self, *args, **kwargs)
     return func_wrapper
+
+
+def check_session(to_check):
+    def wrap(func):
+        def func_wrapper(self, *args, **kwargs):
+            if self.session:
+                s = self.session
+            else:
+                s = self.xda.session
+            for i in to_check:
+                try:
+                    if not getattr(s, i):
+                        raise Exception("%s not set in session" % i)
+                except AttributeError:
+                    raise Exception("%s not defined in session" % i)
+            return func(self, *args, **kwargs)
+        return func_wrapper
+    return wrap
