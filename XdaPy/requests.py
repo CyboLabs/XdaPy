@@ -112,7 +112,10 @@ class Requests(XdaBase):
         to be broken. Parse the useful data into a dict.
         """
         cookies = http.cookies.SimpleCookie(cookie_str)
-        return {c[0]: c[1].value for c in cookies.items()}
+        d = {}
+        for c in cookies.items():
+            d[c[0]] = c[1].value
+        return d
 
     @staticmethod
     def build_cookie_string(cookie_dict):
