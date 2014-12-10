@@ -40,12 +40,14 @@ class Requests(XdaBase):
         super(Requests, self).__init__(xda)
         self.methods = ["get", "post", "put", "delete"]
 
-    def make_request(self, method, url, body=None, headers=None):
+    def make_request(self, method, url, body=None, headers=None, host=None):
         if headers is None:
             headers = {}
         method = method.lower()
         if method not in self.methods:
             raise Exception  # Will have it's own exception in future
+        if host is None:
+            host = self.xda.host
 
         # convert the body dictionary to get parameters if method is GET
         if method.lower() in ["get", "delete"] and body:
@@ -57,7 +59,7 @@ class Requests(XdaBase):
         if type(body) == dict:
             body = serialize.dict_to_str(body)
         req_func = getattr(self, method)
-        return req_func(self.xda.host, url, body, headers)
+        return req_func(host, url, body, headers)
 
     def basic_request(self, *args, **kwargs):
         r = self.make_request(*args, **kwargs)
