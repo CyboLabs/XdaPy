@@ -37,3 +37,13 @@ class Google(XdaBase):
         return self.xda.requests.basic_enc_request(
             method, url, body=body, host=self.host)
 
+    @check_session(["client_id", "client_secret"])
+    def get_tokens(self, device_code):
+        method = "POST"
+        url = "/o/oauth2/token"
+        body = {"client_id": self.session.client_id,
+                "client_secret": self.session.client_secret,
+                "code": device_code,
+                "grant_type": "http://oauth.net/grant_type/device/1.0"}
+        return self.xda.requests.basic_enc_request(
+            method, url, body=body, host=self.host)
