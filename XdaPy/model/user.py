@@ -38,8 +38,10 @@ class User(object):
         self.avatar_url = data.get("avatar_url", "")
         self.signature = data.get("signature", "")
         self.post_thanks_user_amount = data.get("post_thanks_user_amount", "")
-        self.post_thanks_thanked_posts = data.get("post_thanks_thanked_posts", "")
-        self.post_thanks_thanked_times = data.get("post_thanks_thanked_times", "")
+        self.post_thanks_thanked_posts = data.get("post_thanks_thanked_posts",
+                                                  "")
+        self.post_thanks_thanked_times = data.get("post_thanks_thanked_times",
+                                                  "")
         self.devices = self.load_devices(data.get("devices", []))
         self.email = data.get("email", "")
         self.logout_hash = data.get("logouthash", "")

@@ -32,6 +32,7 @@ class Mention(object):
         self.quoted_user_id = data.get("quoteduserid", "")
         self.quoted_username = data.get("quotedusername", "")
         self.quoted_user_group_id = data.get("quotedusergroupid", "")
-        self.quoted_infraction_group_id = data.get("quotedinfractiongroupid", "")
+        self.quoted_infraction_group_id = data.get("quotedinfractiongroupid",
+                                                   "")
         self.avatar_url = data.get("avatar_url", "")
         self.thread = Thread(data.get("thread"))
