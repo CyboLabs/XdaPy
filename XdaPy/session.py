@@ -24,20 +24,14 @@ from .base import XdaBase
 class Session(XdaBase):
     def __init__(self, xda):
         super(Session, self).__init__(xda)
-        self.username = ""
         self.cookies = {}
 
     @property
     def cookie_str(self):
         return self.xda.requests.build_cookie_string(self.cookies)
 
-    def set_session(self, username, cookie_str):
-        self.username = username
+    def set_session(self, cookie_str):
         self.cookies = self.xda.requests.parse_cookies(cookie_str)
 
     def remove_session(self):
-        self.username = ""
         self.cookies = {}
-
-    def __str__(self):
-        return self.username
