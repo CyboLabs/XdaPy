@@ -47,3 +47,14 @@ class Google(XdaBase):
                 "grant_type": "http://oauth.net/grant_type/device/1.0"}
         return self.xda.requests.basic_enc_request(
             method, url, body=body, host=self.host)
+
+    @check_session(["client_id", "client_secret", "refresh_token"])
+    def refresh_tokens(self):
+        method = "POST"
+        url = "/o/oauth2/token"
+        body = {"client_id": self.session.client_id,
+                "client_secret": self.session.client_secret,
+                "refresh_token": self.session.refresh_token,
+                "grant_type": "refresh_token"}
+        return self.xda.requests.basic_enc_request(
+            method, url, body=body, host=self.host)

@@ -49,6 +49,9 @@ class GoogleSession(object):
         self.client_id = client_id
         self.client_secret = client_secret
 
-    def set_token(self, access, refresh):
+    def set_tokens(self, access, refresh):
         self.access_token = access
         self.refresh_token = refresh
+
+    def set_access_token(self, access):
+        self.access_token = access
