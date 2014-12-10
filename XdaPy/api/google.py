@@ -19,8 +19,6 @@
 
 from ..base import XdaBase
 from ..decorators import check_session
-from ..serialize import dict_to_str, str_to_dict
-from urllib.parse import urlencode
 
 
 class Google(XdaBase):
@@ -32,11 +30,10 @@ class Google(XdaBase):
 
     @check_session(["client_id"])
     def get_user_code(self):
+        method = "POST"
         url = "/o/oauth2/device/code"
         body = {"client_id": self.session.client_id,
                 "scope": self.scope}
-        headers = {"Content-type": "application/x-www-form-urlencoded"}
-        body = urlencode(body)
-        print(body)
-        d = self.xda.requests.post(self.host, url, body=body, headers=headers).read()
-        return str_to_dict(d)
+        return self.xda.requests.basic_enc_request(
+            method, url, body=body, host=self.host)
+
