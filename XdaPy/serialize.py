@@ -18,7 +18,10 @@
 # Thin wrapper around the urllib classes, so nowhere else has to
 # worry about Python compatibility or even touching httplib
 
-import json
+try:
+    import json
+except ImportError:
+    import simplejson as json
 
 
 def dict_to_str(obj):
