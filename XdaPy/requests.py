@@ -65,13 +65,15 @@ class Requests(XdaBase):
         r = self.make_request(*args, **kwargs)
         return serialize.str_to_dict(r.read())
 
-    def encoded_request(self, *args, body=None, headers=None, **kwargs):
-        if headers is None:
-            headers = {}
+    def encoded_request(self, *args, **kwargs):
+        headers = kwargs.get("headers", {})
+        body = kwargs.get("body")
         headers["Content-type"] = "application/x-www-form-urlencoded"
         if type(body) is dict:
             body = urlencode(body)
-        return self.make_request(*args, body=body, headers=headers, **kwargs)
+        kwargs["headers"] = headers
+        kwargs["body"] = body
+        return self.make_request(*args, **kwargs)
 
     def basic_enc_request(self, *args, **kwargs):
         r = self.encoded_request(*args, **kwargs)
