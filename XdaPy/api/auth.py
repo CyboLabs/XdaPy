@@ -62,3 +62,32 @@ class Auth(XdaBase):
         url = "/v1/user/googlelogin"
         d = {"access_token": access_token}
         return self.xda.requests.make_request(method, url, body=d)
+
+    def oauth2_start(self):
+        method = "GET"
+        url = "/v1/oauth2-client"
+        return self.xda.requests.make_request(method, url)
+
+    def oauth_authorized(self, code):
+        method = "GET"
+        url = "/v1/oauth2-client/authorized"
+        d = {"code": code}
+        return self.xda.requests.make_request(method, url, body=d)
+
+    def oauth2_get_authorize(self, client_id):
+        method = "GET"
+        url = "/v1/oauth2-server/authorize"
+        d = {}
+        return self.xda.requests.make_request(method, url, body=d)
+
+    def oauth2_post_authorize(self, client_id):
+        method = "POST"
+        url = "/v1/oauth2-server/authorize"
+        d = {}
+        return self.xda.requests.make_request(method, url, body=d)
+
+    def oauth2_grant(self, grant_type):
+        method = "POST"
+        url = "/v1/oauth2-server/grant"
+        d = {}
+        return self.xda.requests.make_request(method, url, body=d)
