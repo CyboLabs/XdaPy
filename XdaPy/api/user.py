@@ -33,18 +33,6 @@ class User(XdaBase):
         return self.xda.requests.basic_request(method, url)
 
     @login_required
-    def logout(self):
-        """Log the user out.
-
-        See Also:
-            https://api.xda-developers.com/explorer/#!/user/logout_get
-        """
-        method = "GET"
-        url = "/v1/user/logout"
-        self.xda.session.remove_session()
-        return self.xda.requests.basic_request(method, url)
-
-    @login_required
     def mentions(self, page=1):
         """Return a dict containing the user's mention feed.
 
@@ -108,20 +96,6 @@ class User(XdaBase):
         d = {"deviceid": device_id}
         return self.xda.requests.basic_request(method, url, body=d)
 
-    def google_login(self, access_token):
-        """Use Google+ Login system.
-
-        Args:
-            access_token (str): access token for Google+.
-
-        See Also:
-            https://api.xda-developers.com/explorer/#!/user/createGoogleLogin_post
-        """
-        method = "POST"
-        url = "/v1/user/googlelogin"
-        d = {"access_token": access_token}
-        return self.xda.requests.make_request(method, url, body=d)
-
     def google_register(self, access_token, username):
         """Register a new account using Google+
 
@@ -137,22 +111,6 @@ class User(XdaBase):
         d = {"access_token": access_token,
              "username": username}
         return self.xda.requests.basic_request(method, url, body=d)
-
-    def login(self, username, password):
-        """Log in.
-
-        Args:
-            username (str): username.
-            password (str): password.
-
-        See Also:
-            https://api.xda-developers.com/explorer/#!/user/createLogin_post
-        """
-        method = "POST"
-        url = "/v1/user/login"
-        d = {"username": username,
-             "password": password}
-        return self.xda.requests.make_request(method, url, body=d)
 
     def register(self, username, password, email,
                  captcha_chal, captcha_resp):

@@ -29,7 +29,7 @@ class Xda(object):
         self.api = api.Api(self)
 
     def login(self, username, password):
-        r = self.api.user.login(username, password)
+        r = self.api.auth.login(username, password)
         data = serialize.str_to_dict(r.read())
         if data.get("success", False):
             cookies = self.requests.get_cookies(r)
@@ -37,7 +37,7 @@ class Xda(object):
         return data
 
     def google_login(self, access_token):
-        r = self.api.user.google_login(access_token)
+        r = self.api.auth.google_login(access_token)
         data = serialize.str_to_dict(r.read())
         if data.get("success", False):
             cookies = self.requests.get_cookies(r)

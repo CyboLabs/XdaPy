@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with XdaPy.  If not, see <http://www.gnu.org/licenses/>.
 
-from . import apps, forums, pms, posts, recaptcha, threads, user, google
+from . import apps, forums, pms, posts, recaptcha, threads, user, google, auth
 
 
 class Api(object):
@@ -28,3 +28,4 @@ class Api(object):
         self.threads = threads.Threads(xda)
         self.recaptcha = recaptcha.Recaptcha(xda)
         self.google = google.Google(xda)
+        self.auth = auth.Auth(xda)
