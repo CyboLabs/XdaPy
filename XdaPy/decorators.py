@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with XdaPy.  If not, see <http://www.gnu.org/licenses/>.
 
+import warnings
+
 
 def login_required(func):
     def func_wrapper(self, *args, **kwargs):
@@ -40,3 +42,21 @@ def check_session(to_check):
             return func(self, *args, **kwargs)
         return func_wrapper
     return wrap
+
+
+def preview(func):
+    def _(*args, **kwargs):
+        pass
+    def func_wrapper(self, *args, **kwargs):
+        if not self.xda.is_dev:
+            message = ("%s is not ready yet.\n"
+                       "To use it, please do is_dev=True while"
+                       "starting the session [Xda(is_dev=True)]" %
+                       func.__name__)
+            ret = _
+        else:
+            message = "%s is not ready yet." % func.__name__
+            ret = func
+        warnings.warn(message, FutureWarning, 2)
+        return ret(self, *args, **kwargs)
+    return func_wrapper
