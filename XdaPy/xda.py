@@ -21,8 +21,8 @@ import sys
 
 
 class Xda(object):
-    def __init__(self):
-        self.host = "api.xda-developers.com"
+    def __init__(self, host=None):
+        self.host = host or "api.xda-developers.com"
 
         self.session = session.Session(self)
         self.requests = requests.Requests(self)
