@@ -79,29 +79,32 @@ class Requests(XdaBase):
         r = self.encoded_request(*args, **kwargs)
         return serialize.str_to_dict(r.read())
 
-    @staticmethod
-    def get_response(method, host, url, body=None, headers=None):
+    def get_response(self, method, host, url, body=None,
+                     headers=None, is_ssl=True):
         if headers is None:
             headers = {}
-        c = http.client.HTTPSConnection(host)
+        if not is_ssl or not self.xda.is_ssl:
+            c = http.client.HTTPConnection(host)
+        else:
+            c = http.client.HTTPSConnection(host)
         c.request(method, url, body=body, headers=headers)
         r = c.getresponse()
         return r
 
-    def get(self, host, url, body=None, headers=None):
-        r = self.get_response("GET", host, url, body=body, headers=headers)
+    def get(self, *args, **kwargs):
+        r = self.get_response("GET", *args, **kwargs)
         return r
 
-    def post(self, host, url, body=None, headers=None):
-        r = self.get_response("POST", host, url, body=body, headers=headers)
+    def post(self, *args, **kwargs):
+        r = self.get_response("POST", *args, **kwargs)
         return r
 
-    def put(self, host, url, body=None, headers=None):
-        r = self.get_response("PUT", host, url, body=body, headers=headers)
+    def put(self, *args, **kwargs):
+        r = self.get_response("PUT", *args, **kwargs)
         return r
 
-    def delete(self, host, url, body=None, headers=None):
-        r = self.get_response("DELETE", host, url, body=body, headers=headers)
+    def delete(self, *args, **kwargs):
+        r = self.get_response("DELETE", *args, **kwargs)
         return r
 
     @staticmethod

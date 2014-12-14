@@ -21,9 +21,10 @@ import sys
 
 
 class Xda(object):
-    def __init__(self, host=None, is_dev=False):
+    def __init__(self, host=None, is_dev=False, is_ssl=True):
         self.host = host or "api.xda-developers.com"
         self.is_dev = bool(is_dev)
+        self.is_ssl = bool(is_ssl)
 
         self.session = session.Session(self)
         self.requests = requests.Requests(self)
