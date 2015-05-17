@@ -105,6 +105,7 @@ class User(XdaBase):
         d = {"deviceid": device_id}
         return self.xda.requests.basic_request(method, url, body=d)
 
+    '''
     def google_login(self, access_token):
         """Use Google+ Login system.
 
@@ -134,6 +135,7 @@ class User(XdaBase):
         d = {"access_token": access_token,
              "username": username}
         return self.xda.requests.basic_request(method, url, body=d)
+    '''
 
     def login(self, username, password):
         """Log in.
