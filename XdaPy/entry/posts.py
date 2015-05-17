@@ -15,7 +15,48 @@
 from __future__ import absolute_import
 
 from ..base import XdaBase
+from ..model.post import Post as PostModel
+from ..model.smilie import Smilie as SmilieModel
+from ..model.thread import Thread as ThreadModel
 
 
 class Posts(XdaBase):
-    pass
+    def __init__(self, xda):
+        super(Posts, self).__init__(xda)
+        self.api = self.xda.api.posts
+
+    def posts(self, thread_id, page=1):
+        data = self.api.posts(thread_id, page=page)
+        thread = data.get('thread', {})
+        data = data.get('results', [])
+        return (PostModel(d) for d in data), ThreadModel(thread)
+
+    def by_post_id(self, post_id):
+        data = self.api.by_post_id(post_id)
+        thread = data.get('thread', {})
+        data = data.get('results', [])
+        return (PostModel(d) for d in data), ThreadModel(thread)
+
+    def new_post(self, thread_id):
+        data = self.api.new_post(thread_id)
+        thread = data.get('thread', {})
+        data = data.get('results', [])
+        return (PostModel(d) for d in data), ThreadModel(thread)
+
+    def smilies(self):
+        data = self.api.smilies()
+        data = data.get('results', [])
+        return (SmilieModel(d) for d in data)
+
+    def add_attachment(self, post_id):
+        return self.api.add_attachment(post_id)
+
+    def new(self, post_id, message):
+        # TODO: handle extracting success and postid properly
+        return self.api.new(post_id, message)
+
+    def thanks(self, post_id):
+        return self.api.thanks(post_id)
+
+    def delete_thanks(self, post_id):
+        return self.api.delete_thanks(post_id)
