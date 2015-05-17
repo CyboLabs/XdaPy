@@ -15,7 +15,15 @@
 from __future__ import absolute_import
 
 from ..base import XdaBase
+from ..model.app import App as AppModel
 
 
 class Apps(XdaBase):
-    pass
+    def __init__(self, xda):
+        super(Apps, self).__init__(xda)
+        self.api = self.xda.api.apps
+
+    def promoted(self, limit=None):
+        data = self.api.promoted(limit=limit)
+        data = data.get('results', [])
+        return (AppModel(d) for d in data)
