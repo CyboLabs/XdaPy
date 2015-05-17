@@ -12,9 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from . import requests, session, serialize, api
 from getpass import getpass
 import sys
+
+from . import requests, session, serialize, api, entry
 
 
 class Xda(object):
@@ -24,6 +25,9 @@ class Xda(object):
         self.session = session.Session(self)
         self.requests = requests.Requests(self)
         self.api = api.Api(self)
+        # This will populate Xda with attributes matching the file name
+        # of each python file under the entry directory
+        entry.add_entry_points(self)
 
     def login(self, username, password):
         r = self.api.user.login(username, password)
