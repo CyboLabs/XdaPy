@@ -19,7 +19,7 @@ from subprocess import Popen, PIPE
 
 from .xda import Xda
 
-VERSION = (0, 1, 0, 'alpha', 0)
+VERSION = (0, 2, 0, 'alpha', 0)
 
 
 def get_version():
