@@ -12,8 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import absolute_import
+
 from os.path import dirname, abspath
 from subprocess import Popen, PIPE
+
+from .xda import Xda
 
 VERSION = (0, 1, 0, 'alpha', 0)
 
