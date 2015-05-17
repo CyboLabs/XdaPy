@@ -15,7 +15,7 @@
 from .thread import Thread
 
 
-class Mention(object):
+class Quote(object):
     def __init__(self, data):
         if data is None:
             data = {}
