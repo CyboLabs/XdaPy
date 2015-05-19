@@ -19,6 +19,7 @@ from .model.error import Error as ErrorModel
 
 
 def login_required(func):
+    @wraps(func)
     def func_wrapper(self, *args, **kwargs):
         while not self.xda.session.cookies:
             self.xda.default_login()
@@ -28,6 +29,7 @@ def login_required(func):
 
 def check_session(to_check):
     def wrap(func):
+        @wraps(func)
         def func_wrapper(self, *args, **kwargs):
             if self.session:
                 s = self.session
