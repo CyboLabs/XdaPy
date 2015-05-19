@@ -40,8 +40,8 @@ class Pm(object):
         self.title = data.get("title", "")
         self.message = data.get("message", "")
         self.date_line = data.get("dateline", "")
-        self.show_signature = bool(int(data.get("showsignature")))
-        self.allow_smilie = bool(int(data.get("allowsmilie")))
+        self.show_signature = bool(int(data.get("showsignature", 0)))
+        self.allow_smilie = bool(int(data.get("allowsmilie", 0)))
         self.avatar_url = data.get("avatar_url", "")
         self.message_read = data.get("message_read", "")
 

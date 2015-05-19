@@ -22,10 +22,10 @@ class Forum(object):
         self.forum_id = data.get("forumid", -1)
         self.parent_id = data.get("parentid", -1)
         self.forum_slug = data.get("forumslug", "")
-        self.subscribed = bool(int(data.get("subscribed")))
+        self.subscribed = bool(int(data.get("subscribed", 0)))
         self.image = data.get("image", "")
         self.searchable = data.get("searchable", "")
-        self.can_contain_threads = bool(int(data.get("cancontainthreads")))
+        self.can_contain_threads = bool(int(data.get("cancontainthreads", 0)))
         self.web_uri = data.get("web_uri", "")
 
         # these are used in the forum list
@@ -34,7 +34,7 @@ class Forum(object):
 
         # this is only used for the device list. Make it respect the
         # forum list children too.
-        self.has_children = bool(int(data.get("haschildren") or
+        self.has_children = bool(int(data.get("haschildren", 0) or
                                  self.children_count))
 
         # this is only used the findbydevice method
