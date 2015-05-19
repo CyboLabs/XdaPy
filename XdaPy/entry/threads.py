@@ -15,7 +15,38 @@
 from __future__ import absolute_import
 
 from ..base import XdaBase
+from ..model.thread import Thread as ThreadModel
 
 
 class Threads(XdaBase):
-    pass
+    def __init__(self, xda):
+        super(Threads, self).__init__(xda)
+        self.api = self.xda.api.threads
+
+    def threads(self, forum_id, page=1):
+        data = self.api.threads(forum_id, page=page)
+        data = data.get('results', [])
+        return (ThreadModel(d) for d in data)
+
+    def participated(self, page=1):
+        data = self.api.participated(page=page)
+        data = data.get('results', [])
+        return (ThreadModel(d) for d in data)
+
+    def subscribed(self, page=1, unread_only=False):
+        data = self.api.subscribed(page=page, unread_only=unread_only)
+        data = data.get('results', [])
+        return (ThreadModel(d) for d in data)
+
+    def thread_info(self, thread_id):
+        data = self.api.thread_info(thread_id)
+        return ThreadModel(data)
+
+    def new(self, forum_id, title, message):
+        return self.api.new(forum_id, title, message)
+
+    def subscribe(self, thread_id):
+        return self.api.subscribe(thread_id)
+
+    def unsubscribe(self, thread_id):
+        return self.api.unsubscribe(thread_id)

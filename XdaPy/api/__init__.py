@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from . import apps, forums, pms, posts, recaptcha, threads, user, google
+from . import apps, forums, pms, posts, recaptcha, threads, user
 
 
 class Api(object):
@@ -24,4 +24,4 @@ class Api(object):
         self.user = user.User(xda)
         self.threads = threads.Threads(xda)
         self.recaptcha = recaptcha.Recaptcha(xda)
-        self.google = google.Google(xda)
+        # self.google = google.Google(xda)

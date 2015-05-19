@@ -22,7 +22,7 @@ class Session(XdaBase):
     def __init__(self, xda):
         super(Session, self).__init__(xda)
         self.cookies = {}
-        self.google_session = GoogleSession()
+        # self.google_session = GoogleSession()
 
     @property
     def cookie_str(self):
@@ -34,7 +34,7 @@ class Session(XdaBase):
     def remove_session(self):
         self.cookies = {}
 
-
+'''
 class GoogleSession(object):
     def __init__(self):
         self.client_id = ""
@@ -52,3 +52,4 @@ class GoogleSession(object):
 
     def set_access_token(self, access):
         self.access_token = access
+'''

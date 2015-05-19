@@ -15,7 +15,34 @@
 from __future__ import absolute_import
 
 from ..base import XdaBase
+from ..model.pm import Pm as PmModel
 
 
 class Pms(XdaBase):
-    pass
+    def __init__(self, xda):
+        super(Pms, self).__init__(xda)
+        self.api = self.xda.api.pms
+
+    def inbox(self, page=1, unread_only=False):
+        data = self.api.inbox(page=page, unread_only=unread_only)
+        data = data.get('results', [])
+        return (PmModel(d) for d in data)
+
+    def sent(self, page=1):
+        data = self.api.sent(page=page)
+        data = data.get('results', [])
+        return (PmModel(d) for d in data)
+
+    # TODO: see forums TODO message regarding handling this data
+
+    def send(self, username, subject, message):
+        return self.api.send(username, subject, message)
+
+    def mark_read(self, pm_id):
+        return self.api.mark_read(pm_id)
+
+    def mark_unread(self, pm_id):
+        return self.api.mark_unread(pm_id)
+
+    def delete_pm(self, pm_id):
+        return self.api.delete_pm(pm_id)

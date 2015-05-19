@@ -37,6 +37,7 @@ class Xda(object):
             self.session.set_session(cookies)
         return data
 
+    '''
     def google_login(self, access_token):
         r = self.api.user.google_login(access_token)
         data = serialize.str_to_dict(r.read())
@@ -44,6 +45,7 @@ class Xda(object):
             cookies = self.requests.get_cookies(r)
             self.session.set_session(cookies)
         return data
+    '''
 
     def default_login(self):
         """Call for the `login_required` decorator
