@@ -12,6 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from functools import wraps
+import inspect
+
+from .model.error import Error as ErrorModel
 
 
 def login_required(func):
@@ -38,3 +42,37 @@ def check_session(to_check):
             return func(self, *args, **kwargs)
         return func_wrapper
     return wrap
+
+
+def handle_error(cls, black_list=None):
+    if black_list is None:
+        black_list = []
+
+    class Override(object):
+        def __init__(self):
+            self.__module__ = cls.__module__
+            self.__class__.__doc__ = cls.__class__.__doc__
+            self.__class__.__module__ = cls.__class__.__module__
+            self.__class__.__name__ = cls.__class__.__name__
+            self.__class__.__qualname__ = cls.__class__.__qualname__
+
+            self.__dict__ = cls.__dict__
+
+        def __getattribute__(self, item):
+            method = getattr(cls, item)
+            if (item.startswith('_') or item in black_list or
+                    not inspect.isroutine(method)):
+                return method
+            return wrap_func(method)
+
+    def wrap_func(func):
+        @wraps(func)
+        def _wrap_func(*args, **kwargs):
+            data = func(*args, **kwargs)
+            if hasattr(data, 'get'):
+                if data.get('error'):
+                    return ErrorModel(data),
+            return data
+        return _wrap_func
+
+    return Override()

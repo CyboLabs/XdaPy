@@ -15,6 +15,7 @@
 from __future__ import absolute_import
 
 from ..base import XdaBase
+from ..decorators import handle_error
 from ..model.mention import Mention as MentionModel
 from ..model.quote import Quote as QuoteModel
 from ..model.user import User as UserModel
@@ -23,7 +24,7 @@ from ..model.user import User as UserModel
 class User(XdaBase):
     def __init__(self, xda):
         super(User, self).__init__(xda)
-        self.api = self.xda.api.user
+        self.api = handle_error(self.xda.api.user)
 
     def user(self):
         data = self.api.user()

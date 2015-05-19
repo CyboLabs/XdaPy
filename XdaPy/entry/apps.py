@@ -15,13 +15,14 @@
 from __future__ import absolute_import
 
 from ..base import XdaBase
+from ..decorators import handle_error
 from ..model.app import App as AppModel
 
 
 class Apps(XdaBase):
     def __init__(self, xda):
         super(Apps, self).__init__(xda)
-        self.api = self.xda.api.apps
+        self.api = handle_error(self.xda.api.apps)
 
     def promoted(self, limit=None):
         data = self.api.promoted(limit=limit)

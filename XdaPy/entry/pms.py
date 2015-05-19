@@ -15,13 +15,14 @@
 from __future__ import absolute_import
 
 from ..base import XdaBase
+from ..decorators import handle_error
 from ..model.pm import Pm as PmModel
 
 
 class Pms(XdaBase):
     def __init__(self, xda):
         super(Pms, self).__init__(xda)
-        self.api = self.xda.api.pms
+        self.api = handle_error(self.xda.api.pms)
 
     def inbox(self, page=1, unread_only=False):
         data = self.api.inbox(page=page, unread_only=unread_only)

@@ -15,12 +15,13 @@
 from __future__ import absolute_import
 
 from ..base import XdaBase
+from ..decorators import handle_error
 from ..model.forum import Forum as ForumModel
 
 class Forums(XdaBase):
     def __init__(self, xda):
         super(Forums, self).__init__(xda)
-        self.api = self.xda.api.forums
+        self.api = handle_error(self.xda.api.forums)
 
     def forums(self):
         data = self.api.forums()

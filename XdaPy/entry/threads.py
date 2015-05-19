@@ -15,13 +15,14 @@
 from __future__ import absolute_import
 
 from ..base import XdaBase
+from ..decorators import handle_error
 from ..model.thread import Thread as ThreadModel
 
 
 class Threads(XdaBase):
     def __init__(self, xda):
         super(Threads, self).__init__(xda)
-        self.api = self.xda.api.threads
+        self.api = handle_error(self.xda.api.threads)
 
     def threads(self, forum_id, page=1):
         data = self.api.threads(forum_id, page=page)

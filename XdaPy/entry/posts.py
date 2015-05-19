@@ -15,6 +15,7 @@
 from __future__ import absolute_import
 
 from ..base import XdaBase
+from ..decorators import handle_error
 from ..model.post import Post as PostModel
 from ..model.smilie import Smilie as SmilieModel
 from ..model.thread import Thread as ThreadModel
@@ -23,7 +24,7 @@ from ..model.thread import Thread as ThreadModel
 class Posts(XdaBase):
     def __init__(self, xda):
         super(Posts, self).__init__(xda)
-        self.api = self.xda.api.posts
+        self.api = handle_error(self.xda.api.posts)
 
     def posts(self, thread_id, page=1):
         data = self.api.posts(thread_id, page=page)
